@@ -19,7 +19,7 @@ function setup() {
 
     highScore = localStorage.getItem('coinCascadeHighScore') || 0;
     updateHighScoreDisplay();
-
+    document.getElementById('coins').textContent = "Coins: " + coinBalance;
     let pegStartY = 40;
     let pegEndY = height - 90;
     let pegRows = 11;
@@ -228,7 +228,7 @@ function draw() {
         }
     }
 
-    for (let i = popUpTexts.length - 1; i >= 0; i--) {
+    for (let i = popupTexts.length - 1; i >= 0; i--) {
         let popup = popupTexts[i];
 
         popup.life--;
