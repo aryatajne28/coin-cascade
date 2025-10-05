@@ -1,12 +1,12 @@
 let coins = [];
 let pegs = [];
 let slots = [];
-let coinBalance = [];
-let score = [];
-let highScore = [];
+let coinBalance = 20;
+let score = 0;
+let highScore = 0;
 let synth;
 let pegFlashes = [];
-let popUpTexts = [];
+let popupTexts = [];
 
 function setup() {
     createCanvas(500, 550);
@@ -28,7 +28,7 @@ function setup() {
     let pegSpacingY = (pegEndY - pegStartY) / (pegRows - 1);
 
     for (let row = 0; row < pegRows; row++) {
-        let offSetX = (row%2) * (pegSpacingX/2);
+        let offsetX = (row%2) * (pegSpacingX/2);
         let startX = 30 + offsetX;
 
         let maxPegs = row%2 === 0 ? pegCols: pegCols-1;
@@ -67,8 +67,8 @@ function setup() {
             y: y,
             width: slotWidth,
             height: slotHeight,
-            multiplier: rewards[i].multiplier,
-        })
+            multiplier: rewards[i].multiplier
+        });
     }
 }
 
@@ -82,11 +82,11 @@ function draw() {
         let flashIndex = pegFlashes.findIndex(flash => flash.pegIndex === i);
         if(flashIndex !== -1) {
             let flash = pegFlashes[flashIndex];
-            let flashIntensity = 255 * (flash.duration/10);
-            fill(255, 255, flashIndex, 1);
-
+            let flashIntensity = 255 * (flash.duration / 10); 
+            fill(255, 255, flashIntensity);
+            
             flash.duration--;
-            if(flash.duration <= 0) {
+            if (flash.duration <= 0) {
                 pegFlashes.splice(flashIndex, 1);
             }
         } else {
@@ -100,10 +100,10 @@ function draw() {
     textSize(14);
     for (let slot of slots) {
         if (slot.multiplier === 0) {
-            fill(100, 50, 50);
-        } else if (slot.multiplier === 2) {
-            fill(50, 100, 50);
-        } else if(slot.multiplier === 3) {
+            fill(100, 50, 50); 
+        } else if (slot.multiplier <= 2) {
+            fill(50, 100, 50); 
+        } else if (slot.multiplier <= 3) {
             fill(100, 100, 50);
         } else {
             fill(150, 100, 50);
@@ -116,7 +116,7 @@ function draw() {
         text(displayText, slot.x + slot.width/2, slot.y + slot.height/2);
     }
 
-    for(let i = coins.length - 1; i >= 0; i++) {
+    for(let i = coins.length - 1; i >= 0; i--) {
         let coin = coins[i];
         let gravity = createVector(0, 0.3);
         coin.velocity.add(gravity);
@@ -158,7 +158,7 @@ function draw() {
         }
 
         if (coin.position.x < 15) {
-            coin.position = 15;
+            coin.position.x = 15;
             coin.velocity.x *= -0.7;
         } else if (coin.position.x > width - 15) {
             coin.position.x = width - 15;
@@ -196,7 +196,7 @@ function draw() {
                             y: slot.y - 20,
                             life: 90,
                             maxLife: 90,
-                            color: slot.multiplier >= 5 ? [215, 215, 0] : [76, 222, 128],
+                            color: slot.multiplier >= 5 ? [255, 215, 0] : [76, 222, 128]
                         });
                     }
 
@@ -216,20 +216,34 @@ function draw() {
             }
         }
 
-        for (let i = popUpTexts.length - 1; i >= 0; i--) {
-            let popup = popupTexts[i];
-
-            popup.life--;
-            popup.y -= 1.5;
-
-            let alpha = map(popup.life, 0, popup.maxLife, 0, 255);
-            stroke(0, 0, 0, alpha * 0.8);
+        if (!coinRemoved) {
+            fill(255, 215, 0);
+            stroke(255, 235, 100);
             strokeWeight(2);
-            text(popup.text, popup.x, popup.y);
+            circle(coin.position.x, coin.position.y, 15);
 
-            if (popup.life <= 0) {
-                popupTexts.splice(i, 1);
+            if (coin.position.y > height + 50) {
+                coins.splice(i, 1);
             }
+        }
+    }
+
+    for (let i = popUpTexts.length - 1; i >= 0; i--) {
+        let popup = popupTexts[i];
+
+        popup.life--;
+        popup.y -= 1.5;
+
+        let alpha = map(popup.life, 0, popup.maxLife, 0, 255);
+        textAlign(CENTER, CENTER);
+        textSize(16);
+        fill(popup.color[0], popup.color[1], popup.color[2], alpha);
+        stroke(0, 0, 0, alpha * 0.8);
+        strokeWeight(2);
+        text(popup.text, popup.x, popup.y);
+
+        if (popup.life <= 0) {
+            popupTexts.splice(i, 1);
         }
     }
 }
@@ -268,7 +282,7 @@ function updateHighScoreDisplay() {
 }
 
 function showGameOver() {
-    if(coins.length = 0) {
+    if(coins.length === 0) {
 
         document.getElementById('final-score').textContent = score;
         document.getElementById('high-score-display').textContent = highScore;
