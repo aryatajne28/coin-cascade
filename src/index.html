@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Cascade</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.min/js"></script>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">
+            <h1>Coin Cascade</h1>
+        </div>
+        <div class="score-display">
+            <div id="score">Score: 0</div>
+            <div id="coins">Coins: 0</div>
+            <div id="high-score">High Score: 0</div>
+        </div>
+    </header>
+
+    <main id="main">
+        <!-- main space for p5.js canvas -->
+    </main>
+
+    <div id="game-over-dialog" class="game-over-dialog">
+        <div class="game-over-content">
+            <h2>GAME OVER!</h2>
+            <div class="score-summary">
+                <div class="soure-item">
+                    <span class="label">Final score:</span>
+                    <span class="value" id="final-score"></span>
+                </div>
+                <div class="score-item">
+                    <span class="label">High score:</span>
+                    <span class="value" id="high-score-display"></span>
+                </div>
+            </div>
+            <button class="restart-button" onclick="restartGame()">
+                Play again!
+            </button>
+        </div>
+    </div>
+
+    <script src="p5.js"></script>
+</body>
+</html>
