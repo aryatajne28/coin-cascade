@@ -235,13 +235,18 @@ function draw() {
         popup.y -= 1.5;
 
         let alpha = map(popup.life, 0, popup.maxLife, 0, 255);
+        push();
         textAlign(CENTER, CENTER);
         textSize(16);
+        textFont('Arial');
+        fill(0, 0, 0, alpha * 0.8);
+        noStroke();
+        text(popup.text, popup.x + 1, popup.y + 1);
         fill(popup.color[0], popup.color[1], popup.color[2], alpha);
-        stroke(0, 0, 0, alpha * 0.8);
-        strokeWeight(2);
+        
+        noStroke();
         text(popup.text, popup.x, popup.y);
-
+        pop();
         if (popup.life <= 0) {
             popupTexts.splice(i, 1);
         }
