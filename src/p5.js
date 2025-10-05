@@ -192,7 +192,7 @@ function draw() {
 
                         popupTexts.push({
                             text: popupText,
-                            x: slot.x + slot.witdh / 2,
+                            x: slot.x + slot.width / 2,
                             y: slot.y - 20,
                             life: 90,
                             maxLife: 90,
